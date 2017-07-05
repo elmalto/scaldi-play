@@ -1,8 +1,11 @@
 package scaldi.play
 
+import java.io.StringReader
+
 import org.scalatest.{Matchers, WordSpec}
 import ScaldiApplicationBuilder._
-import play.api.Environment
+import com.typesafe.config.ConfigFactory
+import play.api.{Configuration, Environment}
 import scaldi.Module
 import scaldi.play.condition._
 import scaldi.Injectable._
@@ -26,7 +29,12 @@ class PlayConditionSpec extends WordSpec with Matchers {
         inject[String]('test) should be ("dev")
       }
 
-      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Prod)) { implicit inj ⇒
+      val config = Configuration(ConfigFactory.parseReader(new StringReader(
+        """
+          |play.http.secret.key = "not-changeme"
+        """.stripMargin)))
+
+      withScaldiInj(modules = Seq(new TestModule), environment = Environment.simple(mode = Prod),configuration = config) { implicit inj ⇒
         inject[String]('test) should be ("prod")
       }
     }

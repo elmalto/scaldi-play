@@ -11,16 +11,20 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
 testOptions in Test += Tests.Argument("-oDF")
 
-val playVersion = "2.5.1"
+val playVersion = "2.6.0"
+
+val guiceVersion = "4.1.0"
+
 
 libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play" % playVersion % "provided",
   "org.scaldi" %% "scaldi-jsr330" % "0.5.8",
-
+  "com.google.inject" % "guice" % guiceVersion,
+  "com.google.inject.extensions" % "guice-assistedinject" % guiceVersion,
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "com.typesafe.play" %% "play-test" % playVersion % "test",
-  "com.typesafe.play" %% "play-slick" % "1.0.0" % "test",
-  "com.typesafe.play" %% "play-slick-evolutions" % "1.0.0" % "test",
+  "com.typesafe.play" %% "play-slick" % "3.0.0" % "test",
+  "com.typesafe.play" %% "play-slick-evolutions" % "3.0.0" % "test",
   "com.h2database" % "h2" % "1.4.187" % "test",
   "com.typesafe.play" %% "play-cache" % playVersion % "test" // cache plugin add extra bindings which have some specialties and will be tested automatically
 )
